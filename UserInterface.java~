@@ -40,7 +40,7 @@ public class UserInterface
             printOutput("1. Must be at least 8 characters long");
             printOutput("2. Must contain at least one upper case alphabet");
             printOutput("3. Must contain at least one lower case alphabet");
-            printOutput("4. Must contain at least one number (0-9");
+            printOutput("4. Must contain at least one number (0-9)");
             printOutput("5. Must contain at least one special character");
             String password=readInput();
             while(!(password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$")))
@@ -73,10 +73,10 @@ public class UserInterface
             String answers[]=new String[2];
             for(int i=0;i<2;i++)
             {
-             printOutput("Please enter your security question "+(i+1));
-             questions[i]=readInput();
-             printOutput("Please enter your answer for question "+(i+1));
-             answers[i]=readInput();
+                printOutput("Please enter your security question "+(i+1));
+                questions[i]=readInput();
+                printOutput("Please enter your answer for question "+(i+1));
+                answers[i]=readInput();
             }
             boolean registration=systemController.registerNewCustomer(userName,password,email,questions,answers,address,false);
             if(registration)
@@ -88,22 +88,71 @@ public class UserInterface
         }
         else 
         {
-            printOutput("Please neter your password");
+            printOutput("Please enter your password");
             String password = readInput();
-            boolean login = systemController.confirmationForLogin(answer,password);
+            String userName="";
+            String login = systemController.confirmationForLogin(answer,password);
             int i = 1;
-            while(!login)
+            while(!(login.equalsIgnoreCase("valid")))
             {
+                i++;
                 if(i<4)
                 {
-             printOutput("Invalid Credentials. Please try again.");
-             printOutput("Enter Username");
-             String userName=readInput();
-             password=readInput();
-             login = systemController.confirmationForLogin(answer,password);
+                    printOutput(login+". Please try again.");
+                    printOutput("Enter Username");
+                    userName=readInput();
+                    password=readInput();
+                    login = systemController.confirmationForLogin(answer,password);
+                }
+                else
+                {
+                    printOutput("Reached maximum invalid attemps. Please answer your security questions.");
+                    HashMap<String,String> questions = systemController.checkSecurityQuestions(userName);
+                    boolean flag = true;
+                    for(String question:questions.keySet())
+                    {
+                        printOutput(question);
+                        String ans=readInput();
+                        if(!(ans.equalsIgnoreCase(questions.get(question))))
+                        {
+                            systemController.updateUserData(7,userName,"true");
+                            flag=false;
+                        }
+                    }
+                    if(flag)
+                    {
+                        printOutput("Please enter a password that matches the following criteria");
+                        printOutput("1. Must be at least 8 characters long");
+                        printOutput("2. Must contain at least one upper case alphabet");
+                        printOutput("3. Must contain at least one lower case alphabet");
+                        printOutput("4. Must contain at least one number (0-9");
+                        printOutput("5. Must contain at least one special character");
+                        String newPassword=readInput();
+                        while(!(newPassword.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$")))
+                        {
+                            printOutput("Password does not meet the criteria. Please try again");
+                            password=readInput();
+                        }
+                        printOutput("Please Confirm Password");
+                        String newPassword_1=readInput();
+                        while(!(newPassword.equals(newPassword_1)))
+                        {
+                            printOutput("Passwords do not match. Please try again.");
+                            newPassword_1=readInput();
+                        }
+                        systemController.updateUserData(1,userName,newPassword);
+                        login="valid";
+                        break;
+                    }
+                    else
+                    {
+                        printOutput("Account Locked. Please contact Store Owner");
+                        break;
+                    }
+                }
             }
-            
-            }
+            if(login.equalsIgnoreCase("valid"))
+                displayMenu();
         }
     }
 

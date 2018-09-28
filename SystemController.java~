@@ -33,10 +33,23 @@ public class SystemController
         ,customer.getAddress(),customer.getDisableProfile());
         return result;
     }
-    public boolean confirmationForLogin(int id,String username)
+    public String confirmationForLogin(String userName,String password)
     {
+        HashMap<String,String[]> credentials = readUserDatabase("user_db.txt");
+        if(credentials.keySet().contains(userName))
+            if(credentials.get(userName)[0].equals(Integer.toString(password.hashCode()))&&credentials.get(userName)[1]!=false)
+                return "Valid";
+            else
+                return "Incorrect Password";
+         else
+            return "User does not exist";
+
+    }
+    public HashMap<String,String> checkSecurityQuestions(String userName)
+    {
+        HashMap<String,String> questions = readSecurityQuestions(userName);
+        return questions;
         
-        return true;
     }
     public void editProfile(int id, boolean answer)
     {
@@ -46,9 +59,9 @@ public class SystemController
         String name="";
         return name;
     }
-    public HashMap<String,String> readUserDatabase(String fileName)
+    public HashMap<String,String[]> readUserDatabase(String fileName)
     {
-        HashMap<String,String> credentials = new HashMap<>();
+        HashMap<String,String[]> credentials = new HashMap<>();
         String line="";
         try
         {
@@ -57,7 +70,10 @@ public class SystemController
             while((line = br.readLine()) != null)
             {
                 String content [] = line.split(","); //store a line read from input file as an element of a string array
-                credentials.put(content[0],content[1]);
+                String cred[] = new String[2];
+                cred[0] = content[1];
+                cred[1] = content[7];
+                credentials.put(content[0],cred);
             }
             fileReader.close();
         }
@@ -66,6 +82,28 @@ public class SystemController
             System.out.print(e);
         }
         return credentials;
+    }
+    public HashMap<String,String> readSecurityQuestions(String userName)
+    {
+        HashMap<String,String> questions = new HashMap<>();
+        String line="";
+        try
+        {
+            FileReader fileReader = new FileReader("user_db.txt");
+            BufferedReader br = new BufferedReader(fileReader);
+            while((line = br.readLine()) != null)
+            {
+                String content [] = line.split(","); //store a line read from input file as an element of a string array
+                questions.put(content[3],content[5]);
+                questions.put(content[4],content[6]);
+            }
+            fileReader.close();
+        }
+        catch(Exception e)
+        {
+            System.out.print(e);
+        }
+        return questions;
     }
     public boolean writeUserDatabase(String userName,String password,String email,String questions[],String answers[],String customerAddress,
     boolean disableProfile)
@@ -83,6 +121,40 @@ public class SystemController
         }
         return false;
     }
+    public boolean updateUserData(int index,String userName,String newValue)
+    {
+        String line="";
+        try
+        {
+            FileReader fileReader = new FileReader("user_db.txt");
+            BufferedReader br = new BufferedReader(fileReader);
+            String old="";
+            String newLine=userName;
+            while((line = br.readLine()) != null)
+            {
+                String content [] = line.split(",");
+                if(content[0].equals(userName))
+                {
+                    if(index==1)
+                        content[1]=Integer.toString(newValue.hashCode());
+                    else
+                        content[index]=newValue;
+                }
+                for(int i=1;i<content.length;i++)
+                    newLine=newLine+","+content[i];
+                old=old+newLine+System.lineSeparator();
+            }
+            fileReader.close();
+            PrintWriter writer = new PrintWriter("user_db.txt");
+            writer.print(old);
+            writer.close();
+        }
+        catch(Exception e)
+        {
+        }
+        return true;
+    }
+    
     //editCart()
     //checkout(int,int):String
     //viewTransaction(int):String
