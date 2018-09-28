@@ -1,0 +1,20 @@
+#BlueJ class context
+comment0.target=SystemController
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ SystemController\ here.\r\n\r\n\ @author\ (your\ name)\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=
+comment1.target=SystemController()
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ SystemController\r\n
+comment2.params=userName\ password\ email\ questions\ answers\ customerAddress\ disableProfile
+comment2.target=boolean\ registerNewCustomer(java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String[],\ java.lang.String[],\ java.lang.String,\ boolean)
+comment2.text=\r\n\ An\ example\ of\ a\ method\ -\ replace\ this\ comment\ with\ your\ own\r\n\r\n\ @param\ \ y\ \ a\ sample\ parameter\ for\ a\ method\r\n\ @return\ \ \ \ the\ sum\ of\ x\ and\ y\r\n
+comment3.params=id\ username
+comment3.target=boolean\ confirmationForLogin(int,\ java.lang.String)
+comment4.params=id\ answer
+comment4.target=void\ editProfile(int,\ boolean)
+comment5.params=id
+comment5.target=java.lang.String\ searchProduct(int)
+comment6.params=fileName
+comment6.target=java.util.HashMap\ readUserDatabase(java.lang.String)
+comment7.params=userName\ password\ email\ questions\ answers\ customerAddress\ disableProfile
+comment7.target=boolean\ writeUserDatabase(java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String[],\ java.lang.String[],\ java.lang.String,\ boolean)
+numComments=8
