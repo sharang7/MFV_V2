@@ -62,8 +62,9 @@ public class UserInterface
                 printOutput("Invalid Email Address. Please try again.");
                 email=readInput();
             }
-            printOutput("Please enter your address(Without any commas)");
-            String address=readInput();
+            printOutput("Please enter your address");
+            String address=readInput().replaceAll(",","");
+            
             while((address.contains(",")))
             {
                 printOutput("Please do not use commas in address and try again");
@@ -90,7 +91,6 @@ public class UserInterface
         {
             printOutput("Please enter your password");
             String password = readInput();
-            String userName="";
             String login = systemController.confirmationForLogin(answer,password);
             int i = 1;
             while(!(login.equalsIgnoreCase("valid")))
@@ -99,15 +99,13 @@ public class UserInterface
                 if(i<4)
                 {
                     printOutput(login+". Please try again.");
-                    printOutput("Enter Username");
-                    userName=readInput();
                     password=readInput();
                     login = systemController.confirmationForLogin(answer,password);
                 }
                 else
                 {
                     printOutput("Reached maximum invalid attemps. Please answer your security questions.");
-                    HashMap<String,String> questions = systemController.checkSecurityQuestions(userName);
+                    HashMap<String,String> questions = systemController.checkSecurityQuestions(answer);
                     boolean flag = true;
                     for(String question:questions.keySet())
                     {
@@ -115,7 +113,7 @@ public class UserInterface
                         String ans=readInput();
                         if(!(ans.equalsIgnoreCase(questions.get(question))))
                         {
-                            systemController.updateUserData(7,userName,"true");
+                            systemController.updateUserData(7,answer,"true");
                             flag=false;
                         }
                     }
@@ -140,7 +138,7 @@ public class UserInterface
                             printOutput("Passwords do not match. Please try again.");
                             newPassword_1=readInput();
                         }
-                        systemController.updateUserData(1,userName,newPassword);
+                        systemController.updateUserData(1,answer,newPassword);
                         login="valid";
                         break;
                     }

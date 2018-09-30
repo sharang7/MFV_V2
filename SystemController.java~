@@ -20,7 +20,7 @@ public class SystemController
     }
 
     /**
-     * An example of a method - replace this comment with your own
+     * This method gets details of a new customer from the boundary class and calls writeUserDataBase()
      *
      * @param  y  a sample parameter for a method
      * @return    the sum of x and y
@@ -33,15 +33,19 @@ public class SystemController
         ,customer.getAddress(),customer.getDisableProfile());
         return result;
     }
+    
+    /**
+     * This method validates credentials entered by the user against those stored in MFV database.
+     */
     public String confirmationForLogin(String userName,String password)
     {
         HashMap<String,String[]> credentials = readUserDatabase("user_db.txt");
         if(credentials.keySet().contains(userName))
-            if(credentials.get(userName)[0].equals(Integer.toString(password.hashCode()))&&credentials.get(userName)[1]!=false)
+            if(credentials.get(userName)[0].equals(Integer.toString(password.hashCode()))&&credentials.get(userName)[1]!="false")
                 return "Valid";
             else
                 return "Incorrect Password";
-         else
+        else
             return "User does not exist";
 
     }
@@ -59,6 +63,10 @@ public class SystemController
         String name="";
         return name;
     }
+    
+    /**
+     * Method used to check if a user exists and is an active user of MFV.
+     */
     public HashMap<String,String[]> readUserDatabase(String fileName)
     {
         HashMap<String,String[]> credentials = new HashMap<>();
@@ -67,10 +75,10 @@ public class SystemController
         {
             FileReader fileReader = new FileReader(fileName);
             BufferedReader br = new BufferedReader(fileReader);
-            while((line = br.readLine()) != null)
+            while((line = br.readLine()) != null) //loop runs till end of file for each line
             {
                 String content [] = line.split(","); //store a line read from input file as an element of a string array
-                String cred[] = new String[2];
+                String cred[] = new String[2]; 
                 cred[0] = content[1];
                 cred[1] = content[7];
                 credentials.put(content[0],cred);
@@ -108,11 +116,18 @@ public class SystemController
     public boolean writeUserDatabase(String userName,String password,String email,String questions[],String answers[],String customerAddress,
     boolean disableProfile)
     {
+        StringBuilder old=new StringBuilder(); //to store current contents of the file
         try
         {
+            FileReader fileReader = new FileReader("user_db.txt");
+            BufferedReader br = new BufferedReader(fileReader);
+            String line="";
+            while(((line=br.readLine())!=null))
+                old.append(line + System.lineSeparator()); //add all lines in the current version of the file
             PrintWriter writer = new PrintWriter("user_db.txt");
-            writer.println(userName+","+password.hashCode()+","+email+","+questions[0]+","+questions[1]+","+answers[0]+","+
-            answers[1]+","+disableProfile);
+            old.append(userName+","+password.hashCode()+","+email+","+questions[0]+","+questions[1]+","+answers[0]+","+
+            answers[1]+","+disableProfile); //append the new line to the current lines
+            writer.print(old); //
             writer.close();
             return true;
         }
