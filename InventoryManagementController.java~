@@ -41,7 +41,7 @@ public class InventoryManagementController
             BufferedReader br = new BufferedReader(fileReader);
             String line="";
             while(((line=br.readLine())!=null))
-                old.append(line + System.lineSeparator()); //add all lines in the current version of the file
+                old.append(line + System.lineSeparator()); //add all lines in the current version of the file*/
             PrintWriter writer = new PrintWriter("inventory.txt");
             old.append(product.toString()+"\n"); //append the new line to the current lines
             writer.print(old); //write old lines + new line to the file

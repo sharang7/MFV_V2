@@ -52,5 +52,5 @@ public class Shipment
     public Product getProductd()
     {
         return productId;
-    }*/
+    }
 }

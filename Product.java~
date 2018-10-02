@@ -116,6 +116,6 @@ public class Product
     
     public String toString()
     {
-        return productID+","+productName+","+origin+","+packaging+","+price+","+discountPrice+","+quantity+","+"10";//shipment.getShipmentId();
+        return productID+","+productName+","+origin+","+packaging+","+price+","+discountPrice+","+quantity+","+shipment.getShipmentId();
     }
 }
