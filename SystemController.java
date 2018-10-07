@@ -58,6 +58,7 @@ public class SystemController
     public void editProfile(int id, boolean answer)
     {
     }
+    
     public String searchProduct(int id)
     {
         String name="";
@@ -91,6 +92,7 @@ public class SystemController
         }
         return credentials;
     }
+    
     public HashMap<String,String> readSecurityQuestions(String userName)
     {
         HashMap<String,String> questions = new HashMap<>();
@@ -113,6 +115,7 @@ public class SystemController
         }
         return questions;
     }
+    
     public boolean writeUserDatabase(String userName,String password,String email,String questions[],String answers[],String customerAddress,
     boolean disableProfile)
     {
