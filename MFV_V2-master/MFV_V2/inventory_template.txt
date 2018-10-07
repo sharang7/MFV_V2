@@ -1,0 +1,1 @@
+<Product_ID>,<Prodcut Name>,<product type>,<Product_Origin>,<type of packaging(weighted,bunch)>,<price per unit>,<discount percent>,<quantity available>,<shipmentID>
