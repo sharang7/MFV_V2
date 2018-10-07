@@ -76,6 +76,7 @@ public class User
         answers [0] = answr[0];
         answers [1] = answr[1];
     }
+    
     public String[] getAnswers()
     {
         return answers;

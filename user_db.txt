@@ -1,1 +1,2 @@
 Bob,-1807046256,sd@monash.edu,color,unit,red,fit5136,false
+gauri,54303909,gaurijadhav498@gmail.com,color,nickname,red,gau,false

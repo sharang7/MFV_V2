@@ -29,14 +29,18 @@ public class Cart
     {
         cartAmount = amount;
     }
+    
     public double getCartAmount()
     {
         return cartAmount;
     }
+    
     public boolean addProduct(int addnumber)
     {
         return true;
     }
+    
+    
     public boolean removeProduct(int removenumber)
     {
         return false;

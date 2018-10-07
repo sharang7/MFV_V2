@@ -34,24 +34,40 @@ public class Customer extends User
     {
         customerAddress = address;
     }
+    
     public String getAddress()
     {
         return customerAddress;
     }
+    
     public void setDisableProfile(boolean profileState)
     {
         disableProfile = profileState;
     }
+    
     public boolean getDisableProfile()
     {
         return disableProfile;
     }
+    
     public void setCart( Cart newCart)
     {
         cart = newCart;
     }
+    
     public Cart getCart()
     {
         return cart;
+    }
+    
+    public boolean addToCart(String addProduct)
+    {
+        return true;
+    }
+    
+    
+    public boolean removeFromCart(int removeProduct)
+    {
+        return false;
     }
 }
