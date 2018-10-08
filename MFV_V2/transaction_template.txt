@@ -1,1 +1,0 @@
-<transactionID>,<customer name>,<product code1>;<quantity>;<price per unit>;[<product code2>;<quantity>;<price per unit>;...<product codeN>;<quantity>;<price per unit>;],<total_amount>
