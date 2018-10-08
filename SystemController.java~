@@ -58,6 +58,7 @@ public class SystemController
     public void editProfile(int id, boolean answer)
     {
     }
+    
     public String searchProduct(int id)
     {
         String name="";
@@ -91,6 +92,7 @@ public class SystemController
         }
         return credentials;
     }
+    
     public HashMap<String,String> readSecurityQuestions(String userName)
     {
         HashMap<String,String> questions = new HashMap<>();
@@ -102,8 +104,11 @@ public class SystemController
             while((line = br.readLine()) != null)
             {
                 String content [] = line.split(","); //store a line read from input file as an element of a string array
-                questions.put(content[3],content[5]);
+                if(content[0].equals(userName))
+                {
                 questions.put(content[4],content[6]);
+                questions.put(content[5],content[7]);
+            }
             }
             fileReader.close();
         }
@@ -113,6 +118,7 @@ public class SystemController
         }
         return questions;
     }
+    
     public boolean writeUserDatabase(String userName,String password,String email,String questions[],String answers[],String customerAddress,
     boolean disableProfile)
     {
@@ -125,9 +131,9 @@ public class SystemController
             while(((line=br.readLine())!=null))
                 old.append(line + System.lineSeparator()); //add all lines in the current version of the file
             PrintWriter writer = new PrintWriter("user_db.txt");
-            old.append(userName+","+password.hashCode()+","+email+","+questions[0]+","+questions[1]+","+answers[0]+","+
+            old.append(userName+","+password.hashCode()+","+email+","+customerAddress+","+questions[0]+","+questions[1]+","+answers[0]+","+
             answers[1]+","+disableProfile); //append the new line to the current lines
-            writer.print(old); //
+            writer.print(old); //write old lines + new line to the file
             writer.close();
             return true;
         }
@@ -144,7 +150,7 @@ public class SystemController
             FileReader fileReader = new FileReader("user_db.txt");
             BufferedReader br = new BufferedReader(fileReader);
             String old="";
-            String newLine=userName;
+            String newLine="";
             while((line = br.readLine()) != null)
             {
                 String content [] = line.split(",");
@@ -154,10 +160,15 @@ public class SystemController
                         content[1]=Integer.toString(newValue.hashCode());
                     else
                         content[index]=newValue;
+                    for(int i=0;i<content.length;i++)
+                        if(i==0)
+                            newLine=userName;
+                            else
+                                newLine=newLine+","+content[i];
+                    old=old+newLine+System.lineSeparator();
                 }
-                for(int i=1;i<content.length;i++)
-                    newLine=newLine+","+content[i];
-                old=old+newLine+System.lineSeparator();
+                else
+                    old=old+line+System.lineSeparator();
             }
             fileReader.close();
             PrintWriter writer = new PrintWriter("user_db.txt");
@@ -170,6 +181,50 @@ public class SystemController
         return true;
     }
     
+    public ArrayList<String> viewAllTransactions()
+    {
+        String line="";
+        ArrayList<String> transactions = new ArrayList<>();
+        try
+        {
+            FileReader fileReader = new FileReader("transactions.txt");
+            BufferedReader br = new BufferedReader(fileReader);
+            String old="";
+            String newLine="";
+            while((line = br.readLine()) != null)
+            {
+                transactions.add(line);
+            }
+        }
+        catch(Exception e)
+        {
+        }
+        return transactions;
+    }
+    public ArrayList<String> viewTransactions(String userName)
+    {
+        String line="";
+        ArrayList<String> transactions = new ArrayList<>();
+        try
+        {
+            FileReader fileReader = new FileReader("user_db.txt");
+            BufferedReader br = new BufferedReader(fileReader);
+            String old="";
+            String newLine="";
+            while((line = br.readLine()) != null)
+            {
+                String content[]=line.split(",");
+                if(content[0].equals(userName))
+                    transactions.add(line);
+                else
+                    continue;
+            }
+        }
+        catch(Exception e)
+        {
+        }
+        return transactions;
+    }
     //editCart()
     //checkout(int,int):String
     //viewTransaction(int):String

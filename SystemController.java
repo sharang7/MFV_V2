@@ -181,6 +181,50 @@ public class SystemController
         return true;
     }
     
+    public ArrayList<String> viewAllTransactions()
+    {
+        String line="";
+        ArrayList<String> transactions = new ArrayList<>();
+        try
+        {
+            FileReader fileReader = new FileReader("transactions.txt");
+            BufferedReader br = new BufferedReader(fileReader);
+            String old="";
+            String newLine="";
+            while((line = br.readLine()) != null)
+            {
+                transactions.add(line);
+            }
+        }
+        catch(Exception e)
+        {
+        }
+        return transactions;
+    }
+    public ArrayList<String> viewTransactions(String userName)
+    {
+        String line="";
+        ArrayList<String> transactions = new ArrayList<>();
+        try
+        {
+            FileReader fileReader = new FileReader("transactions.txt");
+            BufferedReader br = new BufferedReader(fileReader);
+            String old="";
+            String newLine="";
+            while((line = br.readLine()) != null)
+            {
+                String content[]=line.split(",");
+                if(content[0].equals(userName))
+                    transactions.add(line);
+                else
+                    continue;
+            }
+        }
+        catch(Exception e)
+        {
+        }
+        return transactions;
+    }
     //editCart()
     //checkout(int,int):String
     //viewTransaction(int):String
