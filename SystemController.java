@@ -55,8 +55,54 @@ public class SystemController
         return questions;
         
     }
-    public void editProfile(int id, boolean answer)
+    public boolean editProfile(int index, String userName, String newValue)
     {
+        String line="";
+        try
+        {
+            FileReader fileReader = new FileReader("user_db.txt");
+            BufferedReader br = new BufferedReader(fileReader);
+            String old="";
+            String newLine="";
+            while((line = br.readLine()) != null)
+            {
+                String content [] = line.split(",");
+                if(content[0].equals(userName))
+                {
+                    if(index == 2)
+                    {
+                        content[2] = newValue;
+                        System.out.print("Your Email has changed successfully");
+                    }
+                    else if (index == 3)
+                    {
+                        content[3] = newValue;
+                        System.out.print("Your address has changed successfully");
+                    }
+                    else if (index == 8)
+                    {
+                        content[8] = newValue;
+                        System.out.print("Your account has disactivated");
+                    }
+                    for(int i=0;i<content.length;i++)
+                        if(i==0)
+                            newLine=userName;
+                            else
+                                newLine=newLine+","+content[i];
+                    old=old+newLine+System.lineSeparator();
+                }
+                else
+                    old=old+line+System.lineSeparator();
+            }
+            fileReader.close();
+            PrintWriter writer = new PrintWriter("user_db.txt");
+            writer.print(old);
+            writer.close();
+        }
+        catch(Exception e)
+        {
+        }
+        return true;
     }
     
     public String searchProduct(int id)
@@ -118,7 +164,6 @@ public class SystemController
         }
         return questions;
     }
-    
     public boolean writeUserDatabase(String userName,String password,String email,String questions[],String answers[],String customerAddress,
     boolean disableProfile)
     {
@@ -181,50 +226,6 @@ public class SystemController
         return true;
     }
     
-    public ArrayList<String> viewAllTransactions()
-    {
-        String line="";
-        ArrayList<String> transactions = new ArrayList<>();
-        try
-        {
-            FileReader fileReader = new FileReader("transactions.txt");
-            BufferedReader br = new BufferedReader(fileReader);
-            String old="";
-            String newLine="";
-            while((line = br.readLine()) != null)
-            {
-                transactions.add(line);
-            }
-        }
-        catch(Exception e)
-        {
-        }
-        return transactions;
-    }
-    public ArrayList<String> viewTransactions(String userName)
-    {
-        String line="";
-        ArrayList<String> transactions = new ArrayList<>();
-        try
-        {
-            FileReader fileReader = new FileReader("transactions.txt");
-            BufferedReader br = new BufferedReader(fileReader);
-            String old="";
-            String newLine="";
-            while((line = br.readLine()) != null)
-            {
-                String content[]=line.split(",");
-                if(content[0].equals(userName))
-                    transactions.add(line);
-                else
-                    continue;
-            }
-        }
-        catch(Exception e)
-        {
-        }
-        return transactions;
-    }
     //editCart()
     //checkout(int,int):String
     //viewTransaction(int):String

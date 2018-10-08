@@ -1,2 +1,4 @@
-Bob,-687128809,sd@monash.edu,Melb,color,unit,red,fit5136,false
-Alice,1120325654,abc@abc.com,Melbourne,unit,color,fit5136,red,false
+Najmah,582084909,Najmah@com,aaaaa,color,unit,red,FIT5105,True
+Gauria,-247096520,anas@monash,Melb,hgf,tr,ghh,gh,false
+Hala,373488895,H@monash,mon,dgt,srth,jftj,true,false
+john,244200639,J@monasj,saudi,c,uv,red,monash,True

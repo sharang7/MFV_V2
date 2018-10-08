@@ -10,6 +10,8 @@ public class UserInterface
     // instance variables - replace the example below with your own
     private SystemController systemController= new SystemController();
     private Scanner sc = new Scanner(System.in);
+    String userName = "";
+    String answer="";
     /**
      * Constructor for objects of class UserInterface
      */
@@ -26,7 +28,7 @@ public class UserInterface
      */
     public void startMFV()
     {
-        String answer="";
+        
         printOutput("                    WELCOME TO MONASH FRUIT AND VEGETABLES                           ");
         printOutput("*************************************************************************************");
         printOutput("Please Enter your ID");
@@ -35,7 +37,7 @@ public class UserInterface
         if(answer.equalsIgnoreCase("yes"))
         {
             printOutput("Please enter your name");
-            String userName= readInput();
+            userName= readInput();
             printOutput("Please enter a password that matches the following criteria");
             printOutput("1. Must be at least 8 characters long");
             printOutput("2. Must contain at least one upper case alphabet");
@@ -83,6 +85,7 @@ public class UserInterface
             if(registration)
             {
                 printOutput("Registration Successful");
+                displayEditingMenu();
             }
             else
                 printOutput("Registration Failed");
@@ -149,6 +152,7 @@ public class UserInterface
                     }
                 }
             }
+            displayEditingMenu();
             if(login.equalsIgnoreCase("valid"))
                 displayMenu();
         }
@@ -171,6 +175,40 @@ public class UserInterface
             default:
             System.out.println("Invalid option");
             break;
+        }
+    }
+    public void displayEditingMenu()
+    {
+        int option = 0;
+        
+        printOutput("*************************************************************************************");
+        printOutput("Please enter your choice from the following menue: ");
+        printOutput("1. Edit your address");
+        printOutput("2. Deactiva ");
+        printOutput("3. Edit your email ");
+        printOutput("4. Leave the editation menue ");
+        option = Integer.parseInt(readInput());
+        if (userName == "")
+             userName = answer;
+        if(option == 1)
+        {
+          printOutput("Please enter your new address:");
+          String newAddress = readInput();
+          systemController.editProfile(3,userName,newAddress);     
+        }
+        else if (option == 2)
+        {
+         systemController.editProfile(8,userName,"True");
+        }
+        else if (option == 3)
+        {
+         printOutput("Please enter your new email:");
+         String newEmail = readInput();
+         systemController.editProfile(2,userName,newEmail);
+        }
+        else if (option == 4)
+        {
+         displayMenu();
         }
     }
 
