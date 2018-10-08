@@ -126,7 +126,7 @@ public class UserInterface
                         printOutput("4. Must contain at least one number (0-9)");
                         printOutput("5. Must contain at least one special character");
                         String newPassword=readInput();
-                        while(!(newPassword.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$")))
+                        while(!(newPassword.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+!^=])(?=\\S+$).{8,}$")))
                         {
                             printOutput("Password does not meet the criteria. Please try again");
                             password=readInput();

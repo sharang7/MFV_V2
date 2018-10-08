@@ -1,2 +1,2 @@
-Bob,-1807046256,sd@monash.edu,color,unit,red,fit5136,false
-gauri,54303909,gaurijadhav498@gmail.com,color,nickname,red,gau,false
+Bob,-687128809,sd@monash.edu,Melb,color,unit,red,fit5136,false
+Alice,1120325654,abc@abc.com,Melbourne,unit,color,fit5136,red,false
