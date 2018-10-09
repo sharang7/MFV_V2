@@ -244,6 +244,7 @@ public class UserInterface
 
                 break;
                 case 3:
+                displayEditingProduct();
                 break;
                 case 4:
                 printOutput("Please enter name of the product to delete");
@@ -281,12 +282,14 @@ public class UserInterface
                     }
                 }
                 break;
+                case 8:
+                break;
                 default:
                 System.out.println("Invalid option");
                 break;
             }
         }
-        while(option!=8);
+        while(option != 8);
     }
 
     public void displayEditingMenu() throws Exception
@@ -320,7 +323,30 @@ public class UserInterface
     }
     while(option!=4);
     }
+    
+        public void displayEditingProduct() throws Exception
+    {
+        int option = 0;
+        printOutput("please enter the your choice for changing");
+            printOutput("1. Name");
+            printOutput("2. Origin");
+            printOutput("3. Packaging");
+            printOutput("4. Price");
+            printOutput("5. Discount");
+            int number = Integer.parseInt(readInput());
+            printOutput("please enter the name of product");
+            String name = readInput();
+            printOutput("please enter the new value");
+            String newValue = readInput();
+            boolean result = inventoryController.editProduct(number,name,newValue);
+            if(result)
+                printOutput("Product Edited Successfully");
+            else
+                printOutput("Failed to Edited product. Please try again.");
 
+    }
+    
+    
     public boolean askForConfirmation()
     {
         return true;
