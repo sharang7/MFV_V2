@@ -311,5 +311,34 @@ public class SystemController
         
         return true;
     }
-  
+    public ArrayList<String> viewCart ()
+    {
+        HashMap<Integer,Integer> cart = customer.getCart().getCartContents();
+        String line="";
+        ArrayList<String> result = new ArrayList<String>();
+        String fileName = "inventory.txt";
+        
+        for (int id: cart.keySet())
+        {
+            try
+        {
+            FileReader fileReader = new FileReader(fileName);
+            BufferedReader br = new BufferedReader(fileReader);
+            while((line = br.readLine()) != null) //loop runs till end of file for each line
+            {
+                String content [] = line.split(","); //store a line read from input file as an element of a string array
+                if (content [0] == Integer.toString(id))
+       
+                       result.add(content [0]+ "," + content [1] + "," + content [2] + "," + content [3] +"," + content [4] + "," + content [5] + "," + cart.get(id));
+            }
+            fileReader.close();
+        }
+        catch(Exception e)
+        {
+            System.out.print(e);
+        }
+            
+        }
+        return result;
+    }
 }
