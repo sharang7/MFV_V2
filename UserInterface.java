@@ -1,6 +1,6 @@
 import java.util.*;
 /**
- * Write a description of class UserInterface here.
+ * hi there.
  *
  * @author (your name)
  * @version (a version number or a date)
