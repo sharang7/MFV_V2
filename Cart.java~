@@ -70,7 +70,7 @@ public class Cart
                 if(cartContents.keySet().contains(Integer.parseInt(line.split(",")[0])))
                 {
                     String contents[]=line.split(",");
-                    cartAmount=cartAmount+((Double.parseDouble(contents[4])-(Double.parseDouble(contents[4])*Double.parseDouble(contents[5])))*cartContents.get(Integer.parseInt(line.split(",")[0])));
+                    cartAmount=cartAmount+((Double.parseDouble(contents[4])-(Double.parseDouble(contents[4])*Double.parseDouble(contents[5])))*cartContents.get());)
                 }
             }
         }
