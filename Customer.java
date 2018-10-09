@@ -14,7 +14,7 @@ public class Customer extends User
     /**
      * Constructor for objects of class Customer
      */
-    public Customer(String userName,String password,String email,String questions[],String answers[],String customerAddress,
+    public Customer(String userName,String password,String email,String customerAddress,String questions[],String answers[],
     boolean disableProfile)
     {
         // initialise instance variables

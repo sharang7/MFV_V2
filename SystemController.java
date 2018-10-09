@@ -10,6 +10,7 @@ public class SystemController
 {
     // instance variables - replace the example below with your own
     private User user;
+    private Customer customer;
     /**
      * Constructor for objects of class SystemController
      */
@@ -17,6 +18,7 @@ public class SystemController
     {
         // initialise instance variables
         //user = new User();
+        //cust = new Customer();
     }
 
     /**
@@ -28,7 +30,7 @@ public class SystemController
     public boolean registerNewCustomer(String userName,String password,String email,String questions[],String answers[],String customerAddress,
     boolean disableProfile)
     {
-        User customer=new Customer(userName,password,email,questions,answers,customerAddress,disableProfile);
+        customer=new Customer(userName,password,email,customerAddress,questions,answers,disableProfile);
         boolean result = writeUserDatabase(customer.getUserName(),customer.getUserPassword(),customer.getEmail(),customer.getQuestions(),customer.getAnswers()
         ,((Customer)customer).getAddress(),((Customer)customer).getDisableProfile());
         return result;
@@ -42,19 +44,47 @@ public class SystemController
         HashMap<String,String[]> credentials = readUserDatabase("user_db.txt");
         if(credentials.keySet().contains(userName))
             if(credentials.get(userName)[0].equals(Integer.toString(password.hashCode()))&&credentials.get(userName)[1]!="false")
-                return "Valid";
+                {
+                    String line="";
+        try
+        {
+            FileReader fileReader = new FileReader("user_db.txt");
+            BufferedReader br = new BufferedReader(fileReader);
+            while((line = br.readLine()) != null)
+            {
+                if(userName.equals(line.split(",")[0]))
+                {
+                    String content[]=line.split(",");
+                    String questions[]=new String[2];
+                    String answers[]=new String[2];
+                    questions[0]=content[4];
+                    questions[1]=content[5];
+                    answers[0]=content[6];
+                    answers[1]=content[7];
+                    customer = new Customer(content[0],content[1],content[2],content[3],questions,answers,Boolean.parseBoolean(content[7]));
+                }
+            }
+            return "Valid";
+                }
+                    catch(Exception e)
+                    {
+                        return "";
+                    }
+                }
             else
                 return "Incorrect Password";
         else
             return "User does not exist";
 
     }
+    
     public HashMap<String,String> checkSecurityQuestions(String userName)
     {
         HashMap<String,String> questions = readSecurityQuestions(userName);
         return questions;
         
     }
+    
     public boolean editProfile(int index, String userName, String newValue)
     {
         String line="";
@@ -164,6 +194,7 @@ public class SystemController
         }
         return questions;
     }
+    
     public boolean writeUserDatabase(String userName,String password,String email,String questions[],String answers[],String customerAddress,
     boolean disableProfile)
     {
@@ -264,8 +295,21 @@ public class SystemController
         }
         return transactions;
     }
-    //editCart()
-    //checkout(int,int):String
     
-    //fetchProduct(String):Product
+    public boolean addToCart(int id,int quantity)
+    { 
+       HashMap<Integer,Integer> cart = customer.getCart().getCartContents();
+        //HashMap<Integer,Integer> cart =new HashMap<>();
+        cart.put(id,quantity);
+        customer.getCart().setCartContents(cart);
+        //System.out.println("Product added to the cart");
+        return true;
+    }
+    
+    public boolean removeFromCart(int id,int quantity)
+    {
+        
+        return true;
+    }
+  
 }
