@@ -1,5 +1,7 @@
 import java.io.*;
 import java.util.*;
+import java.text.SimpleDateFormat;  
+import java.util.Date;
 /**
  * Write a description of class InventoryManagementController here.
  *
@@ -24,10 +26,16 @@ public class InventoryManagementController
      * @param  y  a sample parameter for a method
      * @return    the sum of x and y
      */
-    public boolean addProduct(String name,String origin,String packaging, double price,double discount,int quantity,int shipmentID)
+    public boolean addProduct(String expiryDate,String name,String origin,String packaging, double price,double discount,int quantity)
+    throws Exception
     {
+        Date expiry_Date=new SimpleDateFormat("dd/MM/yyyy").parse(expiryDate);
         Product product = new Product();
-        product.setProductID(1);//generate product ID.
+        int productID=product.getNewProductID();
+        System.out.print(productID);
+        product.setProductID(productID);//generate product ID.
+        int shipmentID=product.addShipment(expiry_Date,productID);
+        product.setShipmentID(shipmentID);
         product.setProductName(name);
         product.setOrigin(origin);
         product.setPackaging(packaging);
@@ -41,7 +49,7 @@ public class InventoryManagementController
             BufferedReader br = new BufferedReader(fileReader);
             String line="";
             while(((line=br.readLine())!=null))
-                old.append(line + System.lineSeparator()); //add all lines in the current version of the file*/
+                old.append(line + System.lineSeparator()); //add all lines in the current version of the file
             PrintWriter writer = new PrintWriter("inventory.txt");
             old.append(product.toString()+"\n"); //append the new line to the current lines
             writer.print(old); //write old lines + new line to the file
@@ -53,5 +61,14 @@ public class InventoryManagementController
             System.out.println(e);
         }
         return false;
+    }
+    
+        
+    public boolean searchProduct(String name,String origin)
+    {
+        Product p1= new Product();
+        p1.setProductName(name);
+        p1.setOrigin(origin);
+        return true;
     }
 }

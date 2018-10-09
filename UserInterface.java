@@ -9,6 +9,7 @@ public class UserInterface
 {
     // instance variables - replace the example below with your own
     private SystemController systemController= new SystemController();
+    private InventoryManagementController inventoryController = new InventoryManagementController();
     private Scanner sc = new Scanner(System.in);
     String userName = "";
     String answer="";
@@ -26,7 +27,7 @@ public class UserInterface
      * @param  y  a sample parameter for a method
      * @return    the sum of x and y
      */
-    public void startMFV()
+    public void startMFV() throws Exception
     {
         
         printOutput("                    WELCOME TO MONASH FRUIT AND VEGETABLES                           ");
@@ -38,6 +39,7 @@ public class UserInterface
         {
             printOutput("Please enter your name");
             userName= readInput();
+            answer=userName;
             printOutput("Please enter a password that matches the following criteria");
             printOutput("1. Must be at least 8 characters long");
             printOutput("2. Must contain at least one upper case alphabet");
@@ -152,17 +154,77 @@ public class UserInterface
                     }
                 }
             }
-            displayEditingMenu();
             if(login.equalsIgnoreCase("valid"))
-                displayMenu();
+                if(answer.equals("admin123"))
+                    displayOwnerMenu();
+                else
+                    displayCustomerMenu();
         }
     }
 
-    public void displayMenu()
+    public void displayCustomerMenu() throws Exception
     {
         int option = 0;
+        do
+        {
         System.out.println("*************************************************************************************");
         System.out.println("\n Please select from the next menu:");
+        option = Integer.parseInt(readInput());
+        switch(option)
+        {
+            case 1:
+            printOutput("Shipment Details");
+            printOutput("Please enter expiry date of the product (dd/MM/yyyy)");
+            printOutput("For example: 29/10/2018");
+            String expiry = readInput();
+            printOutput("Please enter product Name");
+            String name = readInput();
+            printOutput("Please enter product Origin");
+            String origin = readInput();
+            printOutput("Please enter type of packaging (Loose/Bunch/Bags)");
+            String packaging=readInput();
+            printOutput("Please enter price per unit");
+            double price=Double.parseDouble(readInput());
+            printOutput("Please enter discount in percent (if applicable)");
+            String discount=readInput();
+            double discount_percent;
+            if(discount.equals(""))
+                discount_percent=0;
+            else
+                discount_percent=Double.parseDouble(discount);
+            printOutput("Please enter quantity of product received in the shipment");
+            int quantity = Integer.parseInt(readInput());
+            boolean result = inventoryController.addProduct(expiry,name,origin,packaging,price,discount_percent,quantity);
+            if(result)
+                printOutput("Product Added Successfully");
+            else
+                printOutput("Failed to add product. Please try again.");
+            break;
+            case 2:
+            break;
+            case 3:
+            break;
+            default:
+            System.out.println("Invalid option");
+            break;
+        }
+    }
+    while(option!=8);
+    }
+    
+    public void displayOwnerMenu()
+    {
+        int option = 0;
+        printOutput("*************************************************************************************");
+        printOutput("\n Please select from the next menu:");
+        printOutput("1: Add New Product");
+        printOutput("2: Search a Product");
+        printOutput("3: Edit a Product");
+        printOutput("4: Delete a Product");
+        printOutput("5: View a Product");
+        printOutput("6: View All Transactions");
+        printOutput("7: View Specific Transaction");
+        printOutput("8: Logout of MFV");
         option = Integer.parseInt(readInput());
         switch(option)
         {
@@ -177,19 +239,18 @@ public class UserInterface
             break;
         }
     }
-    public void displayEditingMenu()
+    
+    public void displayEditingMenu() throws Exception
     {
         int option = 0;
         
         printOutput("*************************************************************************************");
         printOutput("Please enter your choice from the following menue: ");
         printOutput("1. Edit your address");
-        printOutput("2. Deactiva ");
+        printOutput("2. Deactivate Account");
         printOutput("3. Edit your email ");
         printOutput("4. Leave the editation menue ");
         option = Integer.parseInt(readInput());
-        if (userName == "")
-             userName = answer;
         if(option == 1)
         {
           printOutput("Please enter your new address:");
@@ -208,7 +269,7 @@ public class UserInterface
         }
         else if (option == 4)
         {
-         displayMenu();
+         displayCustomerMenu();
         }
     }
 

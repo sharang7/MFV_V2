@@ -1,0 +1,7 @@
+1,Apples,Mel,Loose,10.0,0.0,10,10
+1,Apples,Mel,Loose,10.0,0.0,10,100
+1,Apples,Melb,loose,10.0,0.0,10,101
+1,Apples,mel,loose,10.0,0.0,11,101
+1,Oranges,aus,loose,10.0,0.0,10,101
+1,Banana,Melb,loose,10.0,0.0,10,101
+1,Mandarin,Melb,loose,10.0,0.0,10,101

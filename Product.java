@@ -1,4 +1,5 @@
-
+import java.util.*;
+import java.io.*;
 /**
  * Write a description of class Product here.
  *
@@ -16,7 +17,7 @@ public class Product
     private double discountPrice;
     private String productType;
     private int quantity;
-    private Shipment shipment;
+    private int shipmentID;
     // private String weight;
     /**
      * Constructor for objects of class Product
@@ -32,7 +33,7 @@ public class Product
         discountPrice = 0;
         productType = new String();
         quantity=0;
-        shipment=new Shipment();
+        shipmentID=0;
     }
 
     /**
@@ -114,8 +115,66 @@ public class Product
         return productType;
     }
     
+    public void setShipmentID(int id)
+    {
+        this.shipmentID=id;
+    }
+    
+    public int getShipmentID()
+    {
+        return shipmentID;
+    }
+    
     public String toString()
     {
-        return productID+","+productName+","+origin+","+packaging+","+price+","+discountPrice+","+quantity+","+"10";//shipment.getShipmentId();
+        return productID+","+productName+","+origin+","+packaging+","+price+","+discountPrice+","+quantity+","+"10"+shipmentID;
+    }
+    
+    public int addShipment(Date expiryDate,int productID)
+    {
+        Shipment shipment= new Shipment();
+        int id=shipment.getNewShipmentID();
+        shipment.setShipmentId(id);
+        shipment.setExpiryDate(expiryDate);
+        shipment.setProductId(productID);
+        StringBuilder old=new StringBuilder();
+        try
+        {
+            FileReader fileReader = new FileReader("shipment_list.txt");
+            BufferedReader br = new BufferedReader(fileReader);
+            String line="";
+            while(((line=br.readLine())!=null))
+                old.append(line + System.lineSeparator()); //add all lines in the current version of the file
+            PrintWriter writer = new PrintWriter("shipment_list.txt");
+            old.append(shipment.toString());
+            System.out.println(shipment.toString());
+            writer.print(old.toString());
+            writer.close();
+        }
+        catch(Exception e)
+        {
+        }
+        return id;
+    }
+    
+    public int getNewProductID()
+    {
+        int id=1;
+        try
+        {
+            FileReader fileReader = new FileReader("inventory.txt");
+            BufferedReader br = new BufferedReader(fileReader);
+            String line="";
+            while(((line=br.readLine())!=null))
+                {
+                    id=Integer.parseInt(line.split(",")[0]);
+                }
+            return id;
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
+        return id+1;
     }
 }

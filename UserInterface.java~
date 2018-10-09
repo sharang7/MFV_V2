@@ -9,7 +9,10 @@ public class UserInterface
 {
     // instance variables - replace the example below with your own
     private SystemController systemController= new SystemController();
+    private InventoryManagementController inventoryController = new InventoryManagementController();
     private Scanner sc = new Scanner(System.in);
+    String userName = "";
+    String answer="";
     /**
      * Constructor for objects of class UserInterface
      */
@@ -24,9 +27,9 @@ public class UserInterface
      * @param  y  a sample parameter for a method
      * @return    the sum of x and y
      */
-    public void startMFV()
+    public void startMFV() throws Exception
     {
-        String answer="";
+        
         printOutput("                    WELCOME TO MONASH FRUIT AND VEGETABLES                           ");
         printOutput("*************************************************************************************");
         printOutput("Please Enter your ID");
@@ -35,7 +38,8 @@ public class UserInterface
         if(answer.equalsIgnoreCase("yes"))
         {
             printOutput("Please enter your name");
-            String userName= readInput();
+            userName= readInput();
+            answer=userName;
             printOutput("Please enter a password that matches the following criteria");
             printOutput("1. Must be at least 8 characters long");
             printOutput("2. Must contain at least one upper case alphabet");
@@ -83,6 +87,7 @@ public class UserInterface
             if(registration)
             {
                 printOutput("Registration Successful");
+                displayEditingMenu();
             }
             else
                 printOutput("Registration Failed");
@@ -126,7 +131,7 @@ public class UserInterface
                         printOutput("4. Must contain at least one number (0-9)");
                         printOutput("5. Must contain at least one special character");
                         String newPassword=readInput();
-                        while(!(newPassword.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$")))
+                        while(!(newPassword.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+!^=])(?=\\S+$).{8,}$")))
                         {
                             printOutput("Password does not meet the criteria. Please try again");
                             password=readInput();
@@ -138,7 +143,7 @@ public class UserInterface
                             printOutput("Passwords do not match. Please try again.");
                             newPassword_1=readInput();
                         }
-                        systemController.updateUserData(1,userName,newPassword);
+                        systemController.updateUserData(1,answer,newPassword);
                         login="valid";
                         break;
                     }
@@ -150,15 +155,76 @@ public class UserInterface
                 }
             }
             if(login.equalsIgnoreCase("valid"))
-                displayMenu();
+                if(answer.equals("admin123"))
+                    displayOwnerMenu();
+                else
+                    displayCustomerMenu();
         }
     }
 
-    public void displayMenu()
+    public void displayCustomerMenu() throws Exception
     {
         int option = 0;
+        do
+        {
         System.out.println("*************************************************************************************");
         System.out.println("\n Please select from the next menu:");
+        option = Integer.parseInt(readInput());
+        switch(option)
+        {
+            case 1:
+            printOutput("Shipment Details");
+            printOutput("Please enter expiry date of the product (dd/MM/yyyy)");
+            printOutput("For example: 29/10/2018");
+            String expiry = readInput();
+            printOutput("Please enter product Name");
+            String name = readInput();
+            printOutput("Please enter product Origin");
+            String origin = readInput();
+            printOutput("Please enter type of packaging (Loose/Bunch/Bags)");
+            String packaging=readInput();
+            printOutput("Please enter price per unit");
+            double price=Double.parseDouble(readInput());
+            printOutput("Please enter discount in percent (if applicable)");
+            String discount=readInput();
+            double discount_percent;
+            if(discount.equals(""))
+                discount_percent=0;
+            else
+                discount_percent=Double.parseDouble(discount);
+            printOutput("Please enter quantity of product received in the shipment");
+            int quantity = Integer.parseInt(readInput());
+            boolean result = inventoryController.addProduct(expiry,name,origin,packaging,price,discount_percent,quantity);
+            if(result)
+                printOutput("Product Added Successfully");
+            else
+                printOutput("Failed to add product. Please try again.");
+            break;
+            case 2:
+            break;
+            case 3:
+            break;
+            default:
+            System.out.println("Invalid option");
+            break;
+        }
+    }
+    while(option!=8);
+    }
+    
+    public void displayOwnerMenu()
+    {
+        int option = 0;
+        printOutput("*************************************************************************************");
+        printOutput("\n Please select from the next menu:");
+        printOutput("1: Add New Product");
+        printOutput("2: Search a Product");
+        printOutput("3: Edit a Product");
+        printOutput("4: Delete a Product");
+        printOutput("5: View a Product");
+        printOutput("6: View All Transactions");
+        printOutput("7: View Specific Transaction");
+        printOutput("8: Logout of MFV");
         option = Integer.parseInt(readInput());
         switch(option)
         {
@@ -171,6 +237,39 @@ public class UserInterface
             default:
             System.out.println("Invalid option");
             break;
+        }
+    }
+    
+    public void displayEditingMenu()
+    {
+        int option = 0;
+        
+        printOutput("*************************************************************************************");
+        printOutput("Please enter your choice from the following menue: ");
+        printOutput("1. Edit your address");
+        printOutput("2. Deactivate Account");
+        printOutput("3. Edit your email ");
+        printOutput("4. Leave the editation menue ");
+        option = Integer.parseInt(readInput());
+        if(option == 1)
+        {
+          printOutput("Please enter your new address:");
+          String newAddress = readInput();
+          systemController.editProfile(3,userName,newAddress);     
+        }
+        else if (option == 2)
+        {
+         systemController.editProfile(8,userName,"True");
+        }
+        else if (option == 3)
+        {
+         printOutput("Please enter your new email:");
+         String newEmail = readInput();
+         systemController.editProfile(2,userName,newEmail);
+        }
+        else if (option == 4)
+        {
+         displayCustomerMenu();
         }
     }
 

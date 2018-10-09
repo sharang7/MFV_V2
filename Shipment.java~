@@ -1,4 +1,5 @@
 import java.util.*;
+import java.io.*;
 /**
  * Write a description of class Shipment here.
  *
@@ -10,7 +11,7 @@ public class Shipment
     // instance variables - replace the example below with your own
     private int shipmentId;
     private Date expiry_Date;
-    //private Product productId; 
+    private int productId; 
     
     /**
      * Constructor for objects of class Shipment
@@ -45,12 +46,38 @@ public class Shipment
     {
         return expiry_Date;
     }
-   /* public void setProductId(Product proId)
+    public void setProductId(int proId)
     {
         productId = proId;
     }
-    public Product getProductd()
+    public int getProductd()
     {
         return productId;
+    }
+    
+    public String toString()
+    {
+        return shipmentId+","+expiry_Date+","+productId
+    }
+    
+    public int getNewShipmentID()
+    {
+        int id=1;
+        try
+        {
+            FileReader fileReader = new FileReader("shipment_list.txt");
+            BufferedReader br = new BufferedReader(fileReader);
+            String line="";
+            while(((line=br.readLine())!=null))
+                {
+                    id=Integer.parseInt(line.split(",")[0]);
+                }
+            return id;
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
+        return id+1;
     }
 }
