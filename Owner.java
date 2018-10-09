@@ -8,7 +8,6 @@ import java.util.ArrayList;
 public class Owner extends User
 {
     // instance variables - replace the example below with your own
-    private ArrayList<Transaction> transactionList;
      
     /**
      * Constructor for objects of class Onwer
@@ -17,7 +16,6 @@ public class Owner extends User
     {
         // initialise instance variables
         super(userName,password,email,questions,answers);
-        transactionList = new ArrayList<Transaction>();
     }
 
     /**
@@ -26,16 +24,4 @@ public class Owner extends User
      * @param  y  a sample parameter for a method
      * @return    the sum of x and y
      */
-    public void viewAllTransactions()
-    {
-        System.out.println("Transactions list:");
-        for(int count=0; count < transactionList.size(); count++)
-        {
-            System.out.println(transactionList.get(count));
-        }
-    }
-    public void deletCustomerProfile(Customer custmerInfor)
-    {
-        
-    }
 }

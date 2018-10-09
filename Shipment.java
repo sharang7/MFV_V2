@@ -72,7 +72,6 @@ public class Shipment
                 {
                     id=Integer.parseInt(line.split(",")[0]);
                 }
-            return id;
         }
         catch(Exception e)
         {

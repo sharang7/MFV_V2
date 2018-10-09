@@ -28,9 +28,9 @@ public class SystemController
     public boolean registerNewCustomer(String userName,String password,String email,String questions[],String answers[],String customerAddress,
     boolean disableProfile)
     {
-        Customer customer=new Customer(userName,password,email,questions,answers,customerAddress,disableProfile);
+        User customer=new Customer(userName,password,email,questions,answers,customerAddress,disableProfile);
         boolean result = writeUserDatabase(customer.getUserName(),customer.getUserPassword(),customer.getEmail(),customer.getQuestions(),customer.getAnswers()
-        ,customer.getAddress(),customer.getDisableProfile());
+        ,((Customer)customer).getAddress(),((Customer)customer).getDisableProfile());
         return result;
     }
     
@@ -226,8 +226,46 @@ public class SystemController
         return true;
     }
     
+    public ArrayList<String> viewAllTransactions()
+    {
+        ArrayList<String> transactions = new ArrayList<>();
+        String line="";
+        try
+        {
+           FileReader fileReader = new FileReader("transactions.txt");
+            BufferedReader br = new BufferedReader(fileReader);
+            while((line = br.readLine()) != null)
+            { 
+                transactions.add(line);
+            }
+        }
+        catch(Exception e)
+        {
+        }
+        return transactions;
+    }
+    
+    public ArrayList<String> viewTransactions(String userName)
+    {
+        ArrayList<String> transactions = new ArrayList<>();
+        String line="";
+        try
+        {
+           FileReader fileReader = new FileReader("transactions.txt");
+            BufferedReader br = new BufferedReader(fileReader);
+            while((line = br.readLine()) != null)
+            { 
+                if(line.split(",")[1].equals(userName))
+                    transactions.add(line);
+            }
+        }
+        catch(Exception e)
+        {
+        }
+        return transactions;
+    }
     //editCart()
     //checkout(int,int):String
-    //viewTransaction(int):String
+    
     //fetchProduct(String):Product
 }

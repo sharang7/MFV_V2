@@ -62,7 +62,6 @@ public class InventoryManagementController
         return false;
     }
     
-        
     public boolean searchProduct(String name,String origin)
     {
         Product p1= new Product();

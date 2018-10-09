@@ -57,7 +57,7 @@ public class Shipment
     
     public String toString()
     {
-        return shipmentId+","+expiry_Date+","+productId
+        return shipmentId+","+expiry_Date+","+productId;
     }
     
     public int getNewShipmentID()

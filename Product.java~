@@ -149,7 +149,7 @@ public class Product
             old.append(shipment.toString());
             System.out.println(shipment.toString());
             writer.print(old.toString());
-            writer.close()
+            writer.close();
         }
         catch(Exception e)
         {
